@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		770B1FE620C48E72009115EF /* PKPaymentButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 770B1FE220C48E71009115EF /* PKPaymentButtonManager.m */; };
 		770B1FE720C48E72009115EF /* PKPaymentButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 770B1FE420C48E72009115EF /* PKPaymentButtonView.m */; };
@@ -105,7 +104,7 @@
 		58B511D31A9E6C8500147676 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 610;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					58B511DA1A9E6C8500147676 = {
@@ -182,6 +181,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../../react-native-payments-addon-stripe/Carthage/Build/iOS/";
 			};
 			name = Debug;
 		};
@@ -216,6 +216,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../../react-native-payments-addon-stripe/Carthage/Build/iOS/";
 			};
 			name = Release;
 		};
@@ -232,6 +233,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = ReactNativePayments;
 				SKIP_INSTALL = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../../react-native-payments-addon-stripe/Carthage/Build/iOS/";
 			};
 			name = Debug;
 		};
@@ -248,6 +250,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = ReactNativePayments;
 				SKIP_INSTALL = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../../react-native-payments-addon-stripe/Carthage/Build/iOS/";
 			};
 			name = Release;
 		};

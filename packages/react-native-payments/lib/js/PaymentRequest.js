@@ -359,11 +359,11 @@ export default class PaymentRequest {
       shippingOption: IS_IOS ? this._shippingOption : null,
       payerName: this._options.requestPayerName ? this._shippingAddress.recipient : null,
       payerPhone: this._options.requestPayerPhone ? this._shippingAddress.phone : null,
-      payerEmail: IS_ANDROID && this._options.requestPayerEmail
+      payerEmail:this._options.requestPayerEmail
         ? details.payerEmail
         : null
     });
-
+    debugger
     return this._acceptPromiseResolver(paymentResponse);
   }
 

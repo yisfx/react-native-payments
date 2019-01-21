@@ -21,7 +21,8 @@ RCT_EXPORT_MODULE()
 {
     return @{
              @"canMakePayments": @([PKPaymentAuthorizationViewController canMakePayments]),
-             @"supportedGateways": [GatewayManager getSupportedGateways]
+             @"supportedGateways": [GatewayManager getSupportedGateways],
+             @"canMakeCcPayments": @([PKPaymentAuthorizationViewController canMakePaymentsUsingNetworks:[NSArray arrayWithObjects: PKPaymentNetworkAmex, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa, nil]])
              };
 }
 
@@ -154,19 +155,26 @@ RCT_EXPORT_METHOD(handleDetailsUpdate: (NSDictionary *)details
 {
     // Store completion for later use
     self.completion = completion;
-    
-    if (self.hasGatewayParameters) {
-        [self.gatewayManager createTokenWithPayment:payment completion:^(NSString * _Nullable token, NSError * _Nullable error) {
-            if (error) {
-                [self handleGatewayError:error];
-                return;
-            }
-            
-            [self handleUserAccept:payment paymentToken:token];
-        }];
-    } else {
-        [self handleUserAccept:payment paymentToken:nil];
-    }
+    [self.gatewayManager createTokenWithPayment:payment completion:^(NSString * _Nullable token, NSError * _Nullable error) {
+        if (error) {
+            [self handleGatewayError:error];
+            return;
+        }
+        
+        [self handleUserAccept:payment paymentToken:token];
+    }];
+//    if (self.hasGatewayParameters) {
+//        [self.gatewayManager createTokenWithPayment:payment completion:^(NSString * _Nullable token, NSError * _Nullable error) {
+//            if (error) {
+//                [self handleGatewayError:error];
+//                return;
+//            }
+//
+//            [self handleUserAccept:payment paymentToken:token];
+//        }];
+//    } else {
+//        [self handleUserAccept:payment paymentToken:nil];
+//    }
 }
 
 
@@ -183,7 +191,7 @@ RCT_EXPORT_METHOD(handleDetailsUpdate: (NSDictionary *)details
                                                     body:@{
                                                            @"recipient": [NSNull null],
                                                            @"organization": [NSNull null],
-                                                           @"addressLine": [NSNull null],
+                                                           @"addressLine":[NSNull null],
                                                            @"city": postalAddress.city,
                                                            @"region": postalAddress.state,
                                                            @"country": [postalAddress.ISOCountryCode uppercaseString],
@@ -342,10 +350,11 @@ RCT_EXPORT_METHOD(handleDetailsUpdate: (NSDictionary *)details
 {
     NSString *transactionId = payment.token.transactionIdentifier;
     NSString *paymentData = [[NSString alloc] initWithData:payment.token.paymentData encoding:NSUTF8StringEncoding];
+    NSString *payerEmail=payment.shippingContact.emailAddress;
     NSMutableDictionary *paymentResponse = [[NSMutableDictionary alloc]initWithCapacity:3];
     [paymentResponse setObject:transactionId forKey:@"transactionIdentifier"];
     [paymentResponse setObject:paymentData forKey:@"paymentData"];
-    
+    [paymentResponse setObject:payerEmail forKey:@"payerEmail"];
     if (token) {
         [paymentResponse setObject:token forKey:@"paymentToken"];
     }

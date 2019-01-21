@@ -16,7 +16,7 @@
 @property (nonatomic, strong) PKPaymentRequest *paymentRequest;
 @property (nonatomic, strong) NSDictionary *initialOptions;
 @property (nonatomic, strong) GatewayManager *gatewayManager;
-@property BOOL *hasGatewayParameters;
+@property BOOL hasGatewayParameters;
 @property (nonatomic, strong) PKPaymentAuthorizationViewController *viewController;
 @property (nonatomic, copy) void (^completion)(PKPaymentAuthorizationStatus);
 @property (nonatomic, copy) void (^shippingContactCompletion)(PKPaymentAuthorizationStatus, NSArray<PKShippingMethod *> * _Nonnull, NSArray<PKPaymentSummaryItem *> * _Nonnull);

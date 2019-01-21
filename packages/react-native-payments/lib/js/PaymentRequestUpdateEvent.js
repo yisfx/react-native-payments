@@ -61,7 +61,7 @@ export default class PaymentRequestUpdateEvent {
 
   _handleDetailsChange(value: PaymentDetailsBase) {
     const target = this.target;
-
+    debugger
     validateTotal(value.total, DOMException);
     validateDisplayItems(value.displayItems, DOMException);
     validateShippingOptions(value.shippingOptions, DOMException);
@@ -129,6 +129,7 @@ export default class PaymentRequestUpdateEvent {
         // when updating shippingMethods.  So we call the `_handleShippingOptionChange`
         // method with the first shippingOption id so that JS is in sync with Apple Pay.
         .then(() => {
+          debugger
           if (Platform.OS !== 'ios') {
             return;
           }
@@ -145,7 +146,7 @@ export default class PaymentRequestUpdateEvent {
         // 13. Upon rejection of detailsPromise:
         .catch(e => {
           this._resetEvent();
-
+          debugger
           throw new Error('AbortError');
         })
     );
