@@ -6,18 +6,17 @@
 [![npm](https://img.shields.io/npm/dm/react-native-payments.svg?style=flat-square)](https://www.npmjs.com/package/react-native-payments)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-Accept Payments with Apple Pay and Android Pay using the [Payment Request API](https://paymentrequest.show).
+Accept Payments with Apple Pay using the [Payment Request API](https://paymentrequest.show).
 
 __Features__
 - __Simple.__ No more checkout forms.
 - __Effective__. Faster checkouts that increase conversion.
 - __Future-proof__. Use a W3C Standards API, supported by companies like Google, Firefox and others.
-- __Cross-platform__. Share payments code between your iOS, Android, and web apps.
+- __Cross-platform__. Share payments code between your iOS
 - __Add-ons__. Easily enable support for Stripe or Braintree via add-ons.
 
 <div>
 <img width="280px" src="https://user-images.githubusercontent.com/1627824/27758096-9fc6bf9a-5dc1-11e7-9d8f-b2d409302fc7.gif" />
-<img width="280px" src="https://user-images.githubusercontent.com/1627824/30039983-d75d1b3e-91d8-11e7-9ac9-71d2ed12958c.png" />
 </div>
 
 ---
@@ -55,7 +54,7 @@ $ react-native link react-native-payments
 ```
 
 ## Usage
-- [Setting up Apple Pay/Android Pay](#setting-up-apple-payandroid-pay)
+- [Setting up Apple Pay](#setting-up-apple-pay)
 - [Importing the Library](#importing-the-library)
 - [Initializing the Payment Request](#initializing-the-payment-request)
 - [Displaying the Payment Request](#displaying-the-payment-request)
@@ -66,8 +65,8 @@ $ react-native link react-native-payments
 - [Dismissing the Payment Request](#dismissing-the-payment-request)
 
 
-### Setting up Apple Pay/Android Pay
-Before you can start accepting payments in your App, you'll need to setup Apple Pay and/or Android Pay.
+### Setting up Apple Pay
+Before you can start accepting payments in your App, you'll need to setup Apple Pay and
 
 #### Apple Pay
 1. Register as an Apple Developer
@@ -76,15 +75,8 @@ Before you can start accepting payments in your App, you'll need to setup Apple 
 
 Apple has a documentation on how to do this in their _[Configuring your Environment](https://developer.apple.com/library/content/ApplePay_Guide/Configuration.html)_ guide.
 
-#### Android Pay
-
-1. Add Android Pay and Google Play Services to your dependencies
-1. Enable Android Pay in your Manifest
-
-Google has documentation on how to do this in their _[Setup Android Pay](https://developers.google.com/pay/api/android/guides/setup)_ guide.
-
 ### Importing the Library
-Once Apple Pay/Android Pay is enabled in your app, jump into your app's entrypoint and make the `PaymentRequest` globally available to your app.
+Once Apple Pay is enabled in your app, jump into your app's entrypoint and make the `PaymentRequest` globally available to your app.
 
 ```es6
 // index.ios.js
@@ -108,29 +100,6 @@ const METHOD_DATA = [{
   }
 }];
 ```
-
-<details>
-<summary><strong>See Android Pay Example</strong></summary>
-<br/>
-
-```es6
-const METHOD_DATA = [{
-  supportedMethods: ['android-pay'],
-  data: {
-    supportedNetworks: ['visa', 'mastercard', 'amex'],
-    currencyCode: 'USD',
-    environment: 'TEST', // defaults to production
-    paymentMethodTokenizationParameters: {
-      tokenizationType: 'NETWORK_TOKEN',
-      parameters: {
-        publicKey: 'your-pubic-key'
-      }
-    }
-  }
-}];
-```
-
-</details>
 
 #### Payment Details
 Payment Details is where define transaction details like display items, a total and optionally shipping options.
@@ -159,8 +128,6 @@ Once you've defined your `methodData` and `details`, you're ready to initialize 
 const paymentRequest = new PaymentRequest(METHOD_DATA, DETAILS);
 ```
 
-🚨 _Note: On Android, display items are not displayed within the Android Pay view.  Instead, the _[User Flows documentation](https://developers.google.com/android-pay/payment-flows)_ suggests showing users a confirmation view where you list the display items.  When using React Native Payments, show this view after receiving the `PaymentResponse`._
-
 ### Displaying the Payment Request
 Now that you've setup your Payment Request, displaying it is as simple as calling the `show` method.
 
@@ -183,8 +150,6 @@ You can abort the Payment Request at any point by calling the `abort` method.
 paymentRequest.abort();
 ```
 
-🚨 _Note: Not yet implemented on Android Pay_
-
 ### Requesting Contact Information
 Some apps may require contact information from a user.  You can do so by providing a [`PaymentOptions`]() as a third argument when initializing a Payment Request. Using Payment Options, you can request a contact name, phone number and/or email.
 
@@ -206,8 +171,6 @@ const OPTIONS = {
 </details>
 <br/>
 
-🚨 _Note: On Android, requesting a contact name will present the user with a shipping address selector. If you're not shipping anything to the user, consider capturing the contact name outside of Android Pay._
-
 #### Requesting a Phone Number
 Set `requestPayerPhone` to `true` to request a phone number.
 
@@ -225,8 +188,6 @@ const OPTIONS = {
 
 </details>
 <br/>
-
-🚨 _Note: On Android, requesting a phone number will present the user with a shipping address selector. If you're not shipping anything to the user, consider capturing the phone number outside of Android Pay._
 
 #### Requesting an Email Address
 Set `requestPayerEmail` to `true` to request an email address.
@@ -309,8 +270,6 @@ paymentRequest.addEventListener('shippingoptionchange', e => {
 
 For a deeper dive on handling shipping in Payment Request, checkout Google's _[Shipping in Payment Request](https://developers.google.com/web/fundamentals/discovery-and-monetization/payment-request/deep-dive-into-payment-request#shipping_in_payment_request_api)_.
 
-🚨 _Note: On Android, there are no `shippingaddresschange` and `shippingoptionchange` events.  To allow users to update their shipping address, you'll need to trigger a new `PaymentRequest`.  Updating shipping options typically happens after the receiving the `PaymentResponse` and before calling its `getPaymentToken` method._
-
 ### Processing Payments
 Now that we know how to initialize, display, and dismiss a Payment Request, let's take a look at how to process payments.
 
@@ -325,10 +284,10 @@ paymentRequest.show()
   });
 ```
 
-There are two ways to process Apple Pay/Android Pay payments -- on your server or using a payment processor.
+There are two ways to process Apple Pay payments -- on your server or using a payment processor.
 
 #### Processing Payments on Your Server
-If you're equipped to process Apple Pay/Android Pay payments on your server, all you have to do is send the Payment Response data to your server.
+If you're equipped to process Apple Pay payments on your server, all you have to do is send the Payment Response data to your server.
 
 > ⚠️ **Note:** When running Apple Pay on simulator, `paymentData` equals to `null`.
 
@@ -351,36 +310,6 @@ paymentRequest.show()
     .catch(errorHandler)
   });
 ```
-
-<details>
-<summary><strong>See Android Pay Example</strong></summary>
-<br/>
-
-```es6
-paymentRequest.show()
-  .then(paymentResponse => {
-    const { getPaymentToken } = paymentResponse.details;
-
-    return getPaymentToken()
-      .then(paymentToken => {
-        const { ephemeralPublicKey, encryptedMessage, tag } = paymentResponse.details;
-
-        return fetch('...', {
-          method: 'POST',
-          body: {
-            ephemeralPublicKey,
-            encryptedMessage,
-            tag
-          }
-        })
-        .then(res => res.json())
-        .then(successHandler)
-        .catch(errorHandler)
-      });
-  });
-```
-
-</details>
 <br/>
 
 You can learn more about server-side decrypting of Payment Tokens on Apple's [Payment Token Format Reference](https://developer.apple.com/library/content/documentation/PassKit/Reference/PaymentTokenJSON/PaymentTokenJSON.html) documentation.
@@ -391,7 +320,7 @@ When using a payment processor, you'll receive a `paymentToken` field within the
 ```es6
 paymentRequest.show()
   .then(paymentResponse => {
-    const { paymentToken } = paymentResponse.details; // On Android, you need to invoke the `getPaymentToken` method to receive the `paymentToken`.
+    const { paymentToken } = paymentResponse.details;
 
     return fetch('...', {
       method: 'POST',
@@ -404,31 +333,6 @@ paymentRequest.show()
     .catch(errorHandler);
   });
 ```
-
-<details>
-<summary><strong>See Android Pay Example</strong></summary>
-<br/>
-
-```es6
-paymentRequest.show()
-  .then(paymentResponse => {
-    const { getPaymentToken } = paymentResponse.details;
-
-    return getPaymentToken()
-      .then(paymentToken => fetch('...', {
-        method: 'POST',
-        body: {
-          paymentToken
-        }
-      })
-      .then(res => res.json())
-      .then(successHandler)
-      .catch(errorHandler);
-    });
-  });
-```
-
-</details>
 <br/>
 
 For a list of supported payment processors and how to enable them, see the [Add-ons](#add-ons) section.
@@ -439,9 +343,6 @@ Dismissing the Payment Request is as simple as calling the `complete` method on 
 ```es6
 paymentResponse.complete('success'); // Alternatively, you can call it with `fail` or `unknown`
 ```
-
-🚨 _Note: On Android, there is no need to call `paymentResponse.complete` -- the PaymentRequest dismisses itself._
-
 ## Testing Payments
 
 ### Apple Pay
@@ -460,8 +361,6 @@ Provides a button that is used either to trigger payments through Apple Pay or t
 Here's a list of Payment Processors that you can enable via add-ons:
 - [Stripe](https://github.com/naoufal/react-native-payments/blob/master/packages/react-native-payments-addon-stripe)
 - [Braintree](https://github.com/naoufal/react-native-payments/blob/master/packages/react-native-payments-addon-braintree)
-
-🚨 _Note: On Android, Payment Processors are enabled by default._
 
 ## API
 ### [NativePayments](https://github.com/naoufal/react-native-payments/blob/master/packages/react-native-payments/docs/NativePayments.md)
@@ -483,14 +382,16 @@ Here's a list of Payment Processors that you can enable via add-ons:
 - [Processing Payments](https://developer.apple.com/library/content/ApplePay_Guide/ProcessPayment.html#//apple_ref/doc/uid/TP40014764-CH5-SW4)
 - [Payment Token Format Reference](https://developer.apple.com/library/content/documentation/PassKit/Reference/PaymentTokenJSON/PaymentTokenJSON.html#//apple_ref/doc/uid/TP40014929)
 
-### Android Pay
-- [Setup Android Pay](https://developers.google.com/pay/api/android/guides/setup)
-- [Tutorial](https://developers.google.com/pay/api/android/guides/tutorial)
-- [Brand Guidelines](https://developers.google.com/pay/api/android/guides/brand-guidelines)
-- [Gateway Token Approach](https://developers.google.com/web/fundamentals/discovery-and-monetization/payment-request/android-pay#gateway_token_approach)
-- [Network Token Approach](https://developers.google.com/web/fundamentals/discovery-and-monetization/payment-request/android-pay#network_token_approach)
-
 # License
 Licensed under the MIT License, Copyright © 2017, [Naoufal Kadhom](https://twitter.com/naoufal).
 
 See [LICENSE](https://github.com/naoufal/react-native-payments/blob/master/LICENSE) for more information.
+
+#### Changelog
+- 16821.0.7.10
+    - 整理了文件结构，删去无用的文件。
+    - 版本号规范修改
+- 0.7.11-2019-05-21
+  - 修改canMakeCcPayments，支持的credit card 判断
+- 0.7.12-2019-05-22
+  - canMakeCcPayment 判断support card时的语法错误。
